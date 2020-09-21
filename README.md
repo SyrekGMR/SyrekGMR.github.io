@@ -1,3 +1,3 @@
 # SyrekGMR.github.io
 
-<a href="syrekgmr.github.io">Website</a>
+<a href="www.syrekgmr.github.io">Website</a>
