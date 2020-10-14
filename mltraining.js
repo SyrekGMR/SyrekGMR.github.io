@@ -1,9 +1,7 @@
 const svg = d3.select('#plot');
 
-// Grab the width and height from the SVG element in HTML
 const width = parseFloat(svg.attr('width'));
 const height = parseFloat(svg.attr('height'));
-
 
 // Data Generation 
 
@@ -41,10 +39,8 @@ const generateData = () => {
 
 var [data, X, Y] = generateData();
 
-// Render function used for producing rectangles for each data point in dataset
+// Render Function
 const render = (data, bestFit) => {
-
-    // Variables used for controlling properties of the plot
     
     const xValue = d => d.x;
     const yValue = d => d.y;
@@ -56,30 +52,22 @@ const render = (data, bestFit) => {
     const yLabel = 'y';
     const title = ""
 
-    // Linear scaling along the x-axis according to the population number
-    // requires the data domain of the data point, with range setting the max-min values
     const xScale = d3.scaleLinear()
         .domain([-2.5, 2.5])
         .range([0, innerWidth])
         .nice();
 
-    // Used for displaying ordinal attributes, in this case seperates each bar in the plot
-    // Domain maps each country (ordinal) from dataset, with range setting the maximum dimensions according to SVG element
     const yScale = d3.scaleLinear()
         .domain([2.5, -2.5])
         .range([0, innerHeight])
         .nice();
-    
 
     const g = svg.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-
-
     const yAxis = d3.axisLeft(yScale)
         .tickSize(-innerWidth)
     
-
     const xAxisTickFormat = number => d3.format('.3')(number);
     const xAxis = d3.axisBottom(xScale)
         .tickFormat(xAxisTickFormat)
@@ -113,8 +101,6 @@ const render = (data, bestFit) => {
         .attr('transform', "rotate(-90)")
         .text(yLabel);
 
-    // Creates circles for each datapoint, with dimensions according to the above mentioned scalings
-    // sets position according to the scaling values described above
     g.selectAll('circle').data(data)
         .enter().append('circle')
             .attr('cy', d => yScale(yValue(d))) 
@@ -123,7 +109,6 @@ const render = (data, bestFit) => {
             .attr('opacity', 0.7)
             .attr('fill', 'steelblue')
 
-    // Adding a title is as simple as appending a text element
     g.append('text')
         .attr('x', innerWidth/2)
         .attr('y', -5)
@@ -146,11 +131,7 @@ const render = (data, bestFit) => {
     }
 };
 
-
-//render(data);
-
 render(data, []);
-
 
 // Sliders
 
@@ -200,8 +181,6 @@ reloadButton.onclick = () => {
 
     return [data, X, Y];
   }
-
-
 
 // Linear Regression Model
 
@@ -285,18 +264,11 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
                 document.getElementById("outputLoss").innerHTML = Number( loss.toPrecision(2) );
                 document.getElementById("outputIteration").innerHTML = iter;
                 document.getElementById("outputEpoch").innerHTML = Number( epoch_.toPrecision(3) );
-
-
               }
         },
     });
 }
 
-console.log("Test");
-
-//trainModel(xTensor, yTensor, lr, batch_size, 1)
-
-console.log("Done");
 
 let trainButton = document.getElementById("startButton")
 
