@@ -54,7 +54,7 @@ const render = (data, bestFit) => {
     const circleRadius = 5;
     const xLabel = "x";
     const yLabel = 'y';
-    const title = `${xLabel} vs ${yLabel}`
+    const title = ""
 
     // Linear scaling along the x-axis according to the population number
     // requires the data domain of the data point, with range setting the max-min values
@@ -66,7 +66,7 @@ const render = (data, bestFit) => {
     // Used for displaying ordinal attributes, in this case seperates each bar in the plot
     // Domain maps each country (ordinal) from dataset, with range setting the maximum dimensions according to SVG element
     const yScale = d3.scaleLinear()
-        .domain([-2.5, 2.5])
+        .domain([2.5, -2.5])
         .range([0, innerHeight])
         .nice();
     
@@ -186,6 +186,10 @@ sliderRight.oninput = () => {
 
 let reload = document.getElementById("reloadButton");
 
+let loss = "N/A";
+let epoch = 0;
+let iter = 0;
+
 reloadButton.onclick = () => {
     d3.selectAll("#plot > *").remove();
     const values = generateData();
@@ -209,8 +213,28 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
   }
 
+const snapRender = (model) => {
+    let y = []
+    y[0] = +model.predict(tf.tensor2d([-2.4], [1, 1])).dataSync()[0]
+    y[1] = +model.predict(tf.tensor2d([2.4], [1, 1])).dataSync()[0]
+
+    const bestFit = [{"x": -2.4}, {"x": 2.4}]
+    let i = 0;
+    bestFit.forEach( d => {
+        d.x = +d.x
+        d.y = y[i]
+        ++i
+    })
+    d3.selectAll("#plot > *").remove();
+    
+    sleep(100);
+
+    render(data, bestFit);
+}
+
 // Training Function
 async function trainModel(inputs, labels, lr, batch_size, epochs) {
+    
     console.log("HERE")
     // Prepare the model for training.  
     
@@ -220,6 +244,8 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
   
     // Output
     model.add(tf.layers.dense({units: 1, useBias: true}));
+
+    snapRender(model);
 
     model.compile({
         optimizer: tf.train.sgd(lr),
@@ -235,7 +261,6 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
         shuffle: true,
         callbacks: {
             onBatchEnd: async (epoch, logs) => {
-                console.log(logs.loss)
                 let y = []
                 y[0] = +model.predict(tf.tensor2d([-2.4], [1, 1])).dataSync()[0]
                 y[1] = +model.predict(tf.tensor2d([2.4], [1, 1])).dataSync()[0]
@@ -253,7 +278,14 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
 
                 render(data, bestFit);
                 
+                loss = logs.loss;
+                iter++;
+                epoch_ = iter / (100 / batchSize);
                 
+                document.getElementById("outputLoss").innerHTML = Number( loss.toPrecision(2) );
+                document.getElementById("outputIteration").innerHTML = iter;
+                document.getElementById("outputEpoch").innerHTML = epoch_;
+
 
               }
         },
@@ -271,6 +303,6 @@ let trainButton = document.getElementById("startButton")
 trainButton.onclick = () => {
     const xTensor = tf.tensor2d(X, [X.length, 1]);
     const yTensor = tf.tensor2d(Y, [Y.length, 1]);
-    console.log(lr, batch_size)
+    iter = 0;
     trainModel(xTensor, yTensor, lr, batch_size, training_steps);
   }

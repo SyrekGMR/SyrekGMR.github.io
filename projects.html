@@ -38,11 +38,18 @@
                         <div style="text-align: center; font-size: 5vw; font-family: myfont; padding-bottom: 2vw;">Visualising Training</div>
 						<div style="text-align: justify;">
 						<p style="text-align-last: center;">Machine learning models are not functional out of the box, they require a period of training during which they learn to represent the dataset presented to them. 
-						   This project aims to visualise this training process in the case of a simple linear regression model which trains on a randomly generated dataset consisting of 100 data points.
-						   Below you are able to tweak some of the hyperparameters present in machine learning models,
+							This project aims to visualise this training process in the case of a simple linear regression model which trains on a randomly generated dataset consisting of 100 data points.
+							Below you can tweak some of the hyperparameters present in machine learning models.
+ 
+						   <br> <br>
+						   There are a few things to note before using the tools below. This is a very simple problem and hence sometime the random initialisation of the model can prove sufficiently
+                           good, resulting in little change in loss hence it is good to perform a few runs and observe the behaviour. Furthermore, the model proves capable of learning the data within
+                           the first few iterations as a result of which it is recommended to explore the low learning rates first to visualise the convergent performance of the model. Finally, at large
+                           learning rates, the model may be sufficiently perturbed to cause a divergence resulting in a loss of NAN in which case it is advised to reload the dataset and try again.
+
 						</p>
 						<br><br>
-						<p style="font-weight: bold; text-align: center;">To break the start command simply refresh the page.
+						<p style="font-weight: bold; text-align: center;">To break the start command, simply refresh the page.
 						</p>
 						</div>
 						<div id="slider_outer">
@@ -63,6 +70,25 @@
 								<br>
 								<input type="range" min="1" max="100" value="10" step="1" id="sliderR">
         						<h2 id="outputRight"></h2>
+							</div>
+						</div>
+
+
+						<div id="slider_outer">
+							<div class="slider" id="sliderLeft" style=" width: 33%; float: left;">
+								Loss
+								<br>
+        						<h2 id="outputLoss">N/A</h2>
+							</div>
+							<div class="slider" id="sliderMid" style=" width: 33%; display: inline-block;">
+								Iteration
+								<br>
+        						<h2 id="outputIteration">0</h2>
+							</div>
+							<div class="slider" id="sliderRight" style="width: 33%; float: right;">
+								Epoch
+								<br>
+        						<h2 id="outputEpoch">0</h2>
 							</div>
 						</div>
 
