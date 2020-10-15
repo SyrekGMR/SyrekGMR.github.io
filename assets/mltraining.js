@@ -264,7 +264,7 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
                 
                 document.getElementById("outputLoss").innerHTML = Number( loss.toPrecision(2) );
                 document.getElementById("outputIteration").innerHTML = iter;
-                document.getElementById("outputEpoch").innerHTML = Number( epoch_.toPrecision(2) );
+                document.getElementById("outputEpoch").innerHTML = Number( epoch_.toPrecision(3) );
               }
         },
     });
