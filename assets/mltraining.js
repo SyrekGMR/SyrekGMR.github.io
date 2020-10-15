@@ -16,8 +16,9 @@ const generateData = () => {
     let yArr = [];
     let i = 0;
     let randW = randomNum(-1, 1);
+    let c = randomNum(-1, 1);
     xArr.forEach( d => {
-        yArr[i] = randW * d + randomNum(-0.5, 0.5);
+        yArr[i] = randW * d + c + randomNum(-0.5, 0.5);
         ++i;
 
     
@@ -219,7 +220,7 @@ async function trainModel(inputs, labels, lr, batch_size, epochs) {
     
     const model = tf.sequential();
 
-    model.add(tf.layers.dense({inputShape: [1], units: 1, useBias: false}));
+    model.add(tf.layers.dense({inputShape: [1], units: 1, useBias: true}));
   
     // Output
     model.add(tf.layers.dense({units: 1, useBias: true}));
