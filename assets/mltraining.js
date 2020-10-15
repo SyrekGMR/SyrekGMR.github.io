@@ -54,12 +54,12 @@ const render = (data, bestFit) => {
     const title = ""
 
     const xScale = d3.scaleLinear()
-        .domain([-2.5, 2.5])
+        .domain([-3, 3])
         .range([0, innerWidth])
         .nice();
 
     const yScale = d3.scaleLinear()
-        .domain([2.5, -2.5])
+        .domain([3, -3])
         .range([0, innerHeight])
         .nice();
 
