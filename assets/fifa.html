@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<!--
+	Epilogue by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<style> 
+    .custom-select {
+      position: relative;
+      font-family: Arial;
+    }
+
+
+
+    .select-selected {
+      background-color: DodgerBlue;
+    }
+
+    /* Style the arrow inside the select element: */
+    .select-selected:after {
+      position: absolute;
+      content: "";
+      top: 14px;
+      right: 10px;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-color: #fff transparent transparent transparent;
+    }
+
+    /* Point the arrow upwards when the select box is open (active): */
+    .select-selected.select-arrow-active:after {
+      border-color: transparent transparent #fff transparent;
+      top: 7px;
+    }
+
+    /* style the items (options), including the selected item: */
+    .select-items div,.select-selected {
+      color: #ffffff;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+      cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+      position: absolute;
+      background-color: DodgerBlue;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
+    }
+
+    div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 70px;					
+    height: 33px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;		}
+
+    #bars {
+    position: absolute;			
+    text-align: center;			
+    width: 80px;					
+    height: 32px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+    }
+
+    #select {
+    position: absolute;			
+    text-align: center;			
+    width: 80px;					
+    height: 32px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+    }
+
+
+
+
+
+    
+</style>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Banner -->
+					<div id="wrapper">
+
+				<!-- Banner -->
+					<section id="intro" class="main">
+						<!-- D3 -->
+                        <script src="https://unpkg.com/d3@6.2.0/dist/d3.min.js"></script>
+						<!-- TensorFlowJS -->
+						<span>
+							<a href="index.html"> 
+                                <svg width="75" height="80" viewBox="0 0 75 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.14297 21.3333L41.1654 80H7.14284L7.14297 21.3333Z" fill="#C4C4C4"/>
+                                    <path d="M67.8573 21.3333V80H33.8348L67.8573 21.3333Z" fill="#C4C4C4"/>
+                                    <path d="M37.5 64L0 0H75L37.5 64Z" fill="#C4C4C4"/>
+                                </svg>
+                            </a>
+						</span>
+							
+                        <br><br>
+                        <div style="text-align: center; font-size: 5vw; font-family: myfont; padding-bottom: 2vw;">Visualising Data From FIFA20</div>
+						<div style="text-align: justify;">
+            <p style="text-align-last: center;">
+              Fifa 20 offers a great source of data from the football world. Each player within the game possesses a set of attributes aimed at indicating their proficiency in the various
+              aspects of football, such as dribbling. These combine to provide an overall rating of each player, with the best players in the world typically assigned a rating of over 90.
+              This project looks to explore the correlation between these, allowing an interesting and unique insight into the world of football as modelled by Fifa 20.
+              <br><br>
+              Below are presented a series of interactive visualisations which can be manipulated by the user, allowing you to change the attribute on each axis as well as the player's nationality.
+              The first two plots display the overall rating distribution over the player age and the counts of the preferred foot. The last plot can be modified using the two drop-down menus below,
+              allowing for the attribute plotted along each axis to be manually set. 
+              
+              <br><br>
+              
+              <p style="font-weight: bold; text-align: center;">
+                This webpage is hosted on Github Pages and hence may experience slowdowns, please allow a few seconds for the SVG plots to 
+                re-render each time.
+              </p>
+            <br>
+						</p>
+                        <div class="custom-select" style='align-content: flex;'>
+                            <select name="countries" id="countries" style= "margin: 10px; width: 50%; display: inline-block;">
+                              <option value=null>All Countries</option>
+                            </select>
+                            <select id="xAttribute" style= "margin: 10px; width: 50%; display: inline-block;">
+                              <option value="X">X Attribute</option>
+                              <option value="Height (cm)">Height</option>
+                              <option value="Weight (kg)">Weight</option>
+                              <option value="Overall">Overall</option>
+                              <option value="Age">Age</option>
+                              <option value="Player Value (Euros)">Player Value</option>
+                              <option value="Pace">Pace</option>
+                              <option value="Shooting">Shooting</option>
+                              <option value="Passing">Passing</option>
+                              <option value="Dribbling">Dribbling</option>
+                              <option value="Defending">Defending</option>
+                              <option value="Physicality">Physicality</option>
+                            </select>
+                            <button id="submit_button" style="margin-top: 11px; margin-right: 10%; float: right; display: inline-block;">Submit</button>
+                            <select id="yAttribute" style= "margin: 10px; width: 50%; display: inline-block;">
+                              <option value="Y">Y Attribute</option>
+                              <option value="Height (cm)">Height</option>
+                              <option value="Weight (kg)">Weight</option>
+                              <option value="Overall">Overall</option>
+                              <option value="Age">Age</option>
+                              <option value="Player Value (Euros)">Player Value</option>
+                              <option value="Pace">Pace</option>
+                              <option value="Shooting">Shooting</option>
+                              <option value="Passing">Passing</option>
+                              <option value="Dribbling">Dribbling</option>
+                              <option value="Defending">Defending</option>
+                              <option value="Physicality">Physicality</option>
+                            </select>
+                            
+                        </div>
+                        <br>
+                        
+                        <br><br>
+                        <div style='text-align: center;'>
+                            <svg id="plot" width="800" height="400"></svg>
+                            <svg id="plot" class="bar" width="800" height="400"></svg>
+                            <svg id="plot" class="plotSelect" width="800" height="400"></svg>
+                        </div>
+                        <script src="index.js" type="module"></script>
+
+					</section>
+				<!-- Items -->
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright">&copy; Mateusz Syrek, 2020</a>.</p>
+					</footer>
+            </div>
+            
+            
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+  
+
+
+
+</html>
