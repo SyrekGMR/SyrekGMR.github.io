@@ -105,7 +105,7 @@ export const plotRenderSelect = (selection, props) => {
             .style('opacity', d => (selected_country == "null" || selected_country == d.nationality) ? 0.7 : 0)
             .on('mouseover', (i, d) => {
                 
-                let w = 7 * ( Math.max(selectX.length, selectY.length) + Math.max(yValue(d), xValue(d)).toString().length );
+                let w = 7 * ( Math.max(selectX.length, selectY.length) + Math.max(yValue(d), xValue(d)).toString().length ) + 10;
                 
                 console.log(w)
 
